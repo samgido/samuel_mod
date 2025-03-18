@@ -1,0 +1,41 @@
+{
+	"schemaVersion": 1,
+	"id": "samuel-mod",
+	"version": "${version}",
+	"name": "Samuel Mod",
+	"description": "Samuel's modifications. Some subjective, vanilla+ features.",
+	"authors": [
+		"Samuel Gido"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/samuel-mod/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"samgido.samuel_mod.SamuelMod"
+		],
+		"client": [
+			"samgido.samuel_mod.SamuelModClient"
+		]
+	},
+	"mixins": [
+		"samuel-mod.mixins.json",
+		{
+			"config": "samuel-mod.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.16.10",
+		"minecraft": "~1.21.3",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
