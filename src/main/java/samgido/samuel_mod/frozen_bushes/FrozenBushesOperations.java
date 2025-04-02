@@ -52,30 +52,32 @@ public class FrozenBushesOperations {
 
         ActionResult result = ActionResult.PASS;
 
-        if (state.getBlock() instanceof FrozenSweetBerryBush && player.getMainHandStack().isOf(Items.BRUSH)) {
-            int age = state.get(SweetBerryBushBlock.AGE);
-            world.setBlockState(blockPos, Blocks.SWEET_BERRY_BUSH.getDefaultState().with(SweetBerryBushBlock.AGE, age));
+        if (state.getBlock() instanceof FrozenSweetBerryBush) {
+            if (player.getMainHandStack().isOf(Items.BRUSH)) {
+                int age = state.get(SweetBerryBushBlock.AGE);
+                world.setBlockState(blockPos, Blocks.SWEET_BERRY_BUSH.getDefaultState().with(SweetBerryBushBlock.AGE, age));
 
-            ItemStack itemStack = player.getMainHandStack();
-            EquipmentSlot equipmentSlot = itemStack.equals(player.getEquippedStack(EquipmentSlot.OFFHAND)) ? EquipmentSlot.OFFHAND : EquipmentSlot.MAINHAND;
+                ItemStack itemStack = player.getMainHandStack();
+                EquipmentSlot equipmentSlot = itemStack.equals(player.getEquippedStack(EquipmentSlot.OFFHAND)) ? EquipmentSlot.OFFHAND : EquipmentSlot.MAINHAND;
 
-            itemStack.damage(1, player, equipmentSlot);
+                itemStack.damage(1, player, equipmentSlot);
 
-            SamuelMod.LOGGER.info("Unfroze bush");
-            result = ActionResult.SUCCESS;
+                SamuelMod.LOGGER.info("Unfroze bush");
+                result = ActionResult.SUCCESS;
+                world.addParticleClient(ParticleTypes.WAX_ON, blockPos.getX() + 0.5, blockPos.getY() + 1., blockPos.getZ() + 0.5, 0.0D, 0.5D, 0.0D);
+            }
         }
-        else if (state.getBlock() instanceof SweetBerryBushBlock && player.getMainHandStack().getItem() instanceof DyeItem) {
-            int age = state.get(SweetBerryBushBlock.AGE);
-            world.setBlockState(blockPos, ModBlocks.FROZEN_SWEET_BERRY_BUSH.getDefaultState().with(SweetBerryBushBlock.AGE, age));
+        else if (state.getBlock() instanceof SweetBerryBushBlock) {
+            if (player.getMainHandStack().getItem() instanceof DyeItem) {
+                int age = state.get(SweetBerryBushBlock.AGE);
+                world.setBlockState(blockPos, ModBlocks.FROZEN_SWEET_BERRY_BUSH.getDefaultState().with(SweetBerryBushBlock.AGE, age));
 
-            player.getMainHandStack().decrement(1);
+                player.getMainHandStack().decrement(1);
 
-            SamuelMod.LOGGER.info("Froze bush");
-            result = ActionResult.SUCCESS;
-        }
-
-        if (result == ActionResult.SUCCESS) {
-            world.addParticle(ParticleTypes.WAX_ON, blockPos.getX(), blockPos.getY() + 1., blockPos.getZ(), 0.0D, 0.0D, 0.0D);
+                SamuelMod.LOGGER.info("Froze bush");
+                result = ActionResult.SUCCESS;
+                world.addParticleClient(ParticleTypes.COMPOSTER, blockPos.getX() + 0.5, blockPos.getY() + 1., blockPos.getZ() + 0.5, 0.0D, 0.5D, 0.0D);
+            }
         }
 
         return result;
